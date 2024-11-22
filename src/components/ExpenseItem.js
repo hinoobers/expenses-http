@@ -1,13 +1,16 @@
+import ExpenseDate from './ExpenseDate';
 import './ExpenseItem.css'
 
 const ExpenseItem = (props) => {
-    console.log(props);
     const {
-        date, title, price
+        date,
+        title,
+        price
     } = props.data;
+
     return (
         <div className='expense-item'>
-            <div>{date.toString()}</div>
+            <ExpenseDate date={date} />
             <div className='expense-item__description'>
                 <h2>{title}</h2>
                 <div className='expense-item__price'>{price}</div>
