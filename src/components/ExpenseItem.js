@@ -2,6 +2,7 @@ import ExpenseDate from './ExpenseDate';
 import './ExpenseItem.css'
 
 const ExpenseItem = (props) => {
+    console.log(props);
     const {
         date,
         title,
