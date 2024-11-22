@@ -6,6 +6,8 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     background-color: #4b4b4b;
     color: white;
+    margin: 10px;
+    border-radius: 8px;
 }
 
 .expense-item__description {
