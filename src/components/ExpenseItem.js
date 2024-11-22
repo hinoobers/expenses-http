@@ -10,9 +10,9 @@ const ExpenseItem = (props) => {
 
     return (
         <div className='expense-item'>
-            <ExpenseDate date={date} />
+            <ExpenseDate className='expense-date' date={date} />
+            <h2>{title}</h2>
             <div className='expense-item__description'>
-                <h2>{title}</h2>
                 <div className='expense-item__price'>{price}</div>
             </div>
         </div>
