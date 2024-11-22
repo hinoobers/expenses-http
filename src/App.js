@@ -1,6 +1,7 @@
 import './App.css'
 import Expenses from './components/Expenses/Expenses'
 import NewExpense from './components/NewExpense/NewExpense';
+import ExpensesFilter from './components/Expenses/ExpensesFilter';
 
 const App = () => {
   const expenses = [
@@ -19,6 +20,10 @@ const App = () => {
   const addExpenseHandler = (expense) => {
     console.log('In app.js')
     console.log(expense)
+  }
+
+  function filterExpense(target) {
+    console.log('Filter changed')
   }
 
   return (
