@@ -34,10 +34,6 @@ const App = () => {
     })
   }
 
-  function filterExpense(target) {
-    console.log('Filter changed')
-  }
-
   return (
     <div className='App'>
       <NewExpense onAddExpense={addExpenseHandler} />
