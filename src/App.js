@@ -2,7 +2,7 @@ import './App.css'
 import Expenses from './components/Expenses/Expenses'
 import NewExpense from './components/NewExpense/NewExpense';
 import ExpensesFilter from './components/Expenses/ExpensesFilter';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const DUMMY_EXPENSES = [
   {
@@ -26,7 +26,15 @@ const DUMMY_EXPENSES = [
 ]
 
 const App = () => {
-  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+  const [expenses, setExpenses] = useState(() => {
+    const storedExpenses = JSON.parse(localStorage.getItem('expenses'));
+    return storedExpenses || [];
+  })
+
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }, [expenses]);
 
   const addExpenseHandler = (expense) => {
     setExpenses((previous) => {
