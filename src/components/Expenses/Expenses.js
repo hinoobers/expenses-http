@@ -25,7 +25,7 @@ const Expenses = (props) => {
   return (
       <Card className="expenses">
           <ExpensesFilter onFilterChange={filterChange}/>
-          <ExpensesList expenses={expensesFilt}/>           
+          <ExpensesList expenses={expensesFilt} isLoading={props.isLoading}/>           
       </Card>
   )
 }

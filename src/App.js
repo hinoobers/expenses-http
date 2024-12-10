@@ -2,6 +2,7 @@ import './App.css'
 import Expenses from './components/Expenses/Expenses'
 import NewExpense from './components/NewExpense/NewExpense';
 import ExpensesFilter from './components/Expenses/ExpensesFilter';
+import Error from './UI/Error';
 import { useEffect, useState } from 'react';
 
 const DUMMY_EXPENSES = [
@@ -26,15 +27,37 @@ const DUMMY_EXPENSES = [
 ]
 
 const App = () => {
-  const [expenses, setExpenses] = useState(() => {
-    const storedExpenses = JSON.parse(localStorage.getItem('expenses'));
-    return storedExpenses || [];
-  })
-
-
+  const [isFetching, setFetching] = useState(false);
+  const [expenses, setExpenses] = useState([]);
+  const [error, setError] = useState(null);
+  const [showError, setShowError] = useState(false);  
+  
   useEffect(() => {
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-  }, [expenses]);
+    const getExpenses = async () => {
+      if(!isFetching) { // small optimization to prevent multiple requests
+        setFetching(true);
+        try {
+          const response = await fetch('http://localhost:3005/expenses');
+          const data = await response.json();
+          if(!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+          setExpenses(data.expenses);
+        }catch(err) {
+          setError({title: "An error occured", message: "Error occured, please try again later"});
+          setShowError(true);
+        }
+        setFetching(false);
+      }
+    }
+    getExpenses();
+  }, []);
+
+  const errorHandler = () => {
+    setShowError(false);
+    setError(null);
+  }
+
 
   const addExpenseHandler = (expense) => {
     setExpenses((previous) => {
@@ -44,8 +67,9 @@ const App = () => {
 
   return (
     <div className='App'>
+      { showError && (<Error title={error.title} message={error.message} onConfirm={errorHandler}></Error>)}
       <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses expenses={expenses}/>
+      <Expenses expenses={expenses} isLoading={isFetching}/>
     </div>
   );
 }
