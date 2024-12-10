@@ -1,6 +1,7 @@
 import express from 'express';
 import fs from "node:fs/promises";
 import cors from 'cors';
+import exp from 'node:constants';
 
 const app = express();
 
@@ -10,6 +11,19 @@ app.get("/expenses", async (req, res) => {
     const fileData = await fs.readFile("expenses.json", "utf-8");
     const parsed = JSON.parse(fileData);
     return res.json({expenses: parsed});
+});
+
+app.post("/add-expense", async (req, res) => {
+    const expData = req.body.expense;
+    const newData = {
+        ...expData,
+        id: (Math.random() * 1000).toString()
+    }
+    const fileData = await fs.readFile("expenses.json", "utf-8");
+    const parsed = JSON.parse(fileData);
+    parsed.push(newData);
+    await fs.writeFile("expenses.json", JSON.stringify(parsed));
+    return res.status(201).json({message: "Expense added successfully"});
 });
 
 app.listen(3005, () => {
